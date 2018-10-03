@@ -88,30 +88,30 @@ update: async function (req, res) {
 
     }
 },
-    // action - search
-    search: async function (req, res) {
+    // search function
+search: async function (req, res) {
 
-        const qName = req.query.name || "";
-        const qAge = req.query.age || "";
+    const qName = req.query.name || "";
+    const qAge = parseInt(req.query.age);
 
-        if (qAge == "") {
+    if (isNaN(qAge)) {
 
-            var persons = await Person.find()
-                .where({ name: { contains: qName } })
-                .sort('name');
+        var persons = await Person.find({
+            where: { name: { contains: qName } },
+            sort: 'name'
+        });
 
-            return res.view('person/index', { 'persons': persons });
+    } else {
 
-        } else {
+        var persons = await Person.find({
+            where: { name: { contains: qName }, age: qAge },
+            sort: 'name'
+        });
 
-            var persons = await Person.find()
-                .where({ name: { contains: qName } })
-                .where({ age: qAge })
-                .sort('name');
+    }
 
-            return res.view('person/index', { 'persons': persons });
-        }
-    },
+    return res.view('person/index', { 'persons': persons });
+},
     // action - paginate
     paginate: async function (req, res) {
 
