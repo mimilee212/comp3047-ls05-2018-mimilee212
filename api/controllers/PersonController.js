@@ -109,7 +109,7 @@ search: async function (req, res) {
         });
 
     }
-
+//comment
     return res.view('person/index', { 'persons': persons });
 },
     // action - paginate
