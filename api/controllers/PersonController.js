@@ -8,14 +8,16 @@
 module.exports = {
     // action - create
     create: async function (req, res) {
-        if (req.method == "POST") {
 
-            await Person.create(req.body.Person);
-            return res.send("Successfully Created!");
-
-        } else {
+        if (req.method == "GET")
             return res.view('person/create');
-        }
+
+        if (typeof req.body.Person === "undefined")
+            return res.badRequest("Form-data not received.");
+
+        await Person.create(req.body.Person);
+
+        return res.ok("Successfully created!");
     },
     // action - index
     index: async function (req, res) {
@@ -83,40 +85,40 @@ module.exports = {
         }
     },
     // action - search
-search: async function (req, res) {
+    search: async function (req, res) {
 
-    const qName = req.query.name || "";
-    const qAge = req.query.age || "";
+        const qName = req.query.name || "";
+        const qAge = req.query.age || "";
 
-    if (qAge == "") {
+        if (qAge == "") {
 
-        var persons = await Person.find()
-            .where({ name: { contains: qName } })
-            .sort('name');
+            var persons = await Person.find()
+                .where({ name: { contains: qName } })
+                .sort('name');
 
-        return res.view('person/index', { 'persons': persons });
+            return res.view('person/index', { 'persons': persons });
 
-    } else {
+        } else {
 
-        var persons = await Person.find()
-            .where({ name: { contains: qName } })
-            .where({ age: qAge })
-            .sort('name');
+            var persons = await Person.find()
+                .where({ name: { contains: qName } })
+                .where({ age: qAge })
+                .sort('name');
 
-        return res.view('person/index', { 'persons': persons });
-    }
-},
-// action - paginate
-paginate: async function (req, res) {
+            return res.view('person/index', { 'persons': persons });
+        }
+    },
+    // action - paginate
+    paginate: async function (req, res) {
 
-    const qPage = req.query.page - 1 || 0;
+        const qPage = req.query.page - 1 || 0;
 
-    var persons = await Person.find().paginate(qPage, 2);
+        var persons = await Person.find().paginate(qPage, 2);
 
-    var numOfPage = Math.ceil(await Person.count() / 2);
+        var numOfPage = Math.ceil(await Person.count() / 2);
 
-    return res.view('person/paginate', { 'persons': persons, 'count': numOfPage });
-},
+        return res.view('person/paginate', { 'persons': persons, 'count': numOfPage });
+    },
 
 
 };
