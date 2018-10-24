@@ -17,6 +17,11 @@ module.exports = {
     },
     age: {
       type: "string"
+    },
+
+    worksFor: {
+      collection: 'User',
+      via: 'supervises'
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

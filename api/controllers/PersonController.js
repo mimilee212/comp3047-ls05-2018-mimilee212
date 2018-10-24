@@ -27,108 +27,122 @@ module.exports = {
 
     },
     // action - view
-view: async function (req, res) {
+    view: async function (req, res) {
 
-    var message = Person.getInvalidIdMsg(req.params);
+        var message = Person.getInvalidIdMsg(req.params);
 
-    if (message) return res.badRequest(message);
-
-    var model = await Person.findOne(req.params.id);
-
-    if (!model) return res.notFound();
-
-    return res.view('person/view', { 'person': model });
-
-},
-
-    // action - delete 
-delete: async function (req, res) {
-
-    if (req.method == "GET") return res.forbidden();
-
-    var message = Person.getInvalidIdMsg(req.params);
-
-    if (message) return res.badRequest(message);
-
-    var models = await Person.destroy(req.params.id).fetch();
-
-    if (models.length == 0) return res.notFound();
-
-    return res.ok("Person Deleted.");
-
-},
-    // action - update
-update: async function (req, res) {
-
-    var message = Person.getInvalidIdMsg(req.params);
-
-    if (message) return res.badRequest(message);
-
-    if (req.method == "GET") {
+        if (message) return res.badRequest(message);
 
         var model = await Person.findOne(req.params.id);
 
         if (!model) return res.notFound();
 
-        return res.view('person/update', { 'person': model });
+        return res.view('person/view', { 'person': model });
 
-    } else {
+    },
 
-        if (typeof req.body.Person === "undefined")
-            return res.badRequest("Form-data not received.");
+    // action - delete 
+    delete: async function (req, res) {
 
-        var models = await Person.update(req.params.id).set({
-            name: req.body.Person.name,
-            age: req.body.Person.age
-        }).fetch();
+        if (req.method == "GET") return res.forbidden();
+
+        var message = Person.getInvalidIdMsg(req.params);
+
+        if (message) return res.badRequest(message);
+
+        var models = await Person.destroy(req.params.id).fetch();
 
         if (models.length == 0) return res.notFound();
 
-        return res.ok("Record updated");
+        return res.ok("Person Deleted.");
 
-    }
-},
+    },
+    // action - update
+    update: async function (req, res) {
+
+        var message = Person.getInvalidIdMsg(req.params);
+
+        if (message) return res.badRequest(message);
+
+        if (req.method == "GET") {
+
+            var model = await Person.findOne(req.params.id);
+
+            if (!model) return res.notFound();
+
+            return res.view('person/update', { 'person': model });
+
+        } else {
+
+            if (typeof req.body.Person === "undefined")
+                return res.badRequest("Form-data not received.");
+
+            var models = await Person.update(req.params.id).set({
+                name: req.body.Person.name,
+                age: req.body.Person.age
+            }).fetch();
+
+            if (models.length == 0) return res.notFound();
+
+            return res.ok("Record updated");
+
+        }
+    },
     // search function
-search: async function (req, res) {
+    search: async function (req, res) {
 
-    const qName = req.query.name || "";
-    const qAge = parseInt(req.query.age);
+        const qName = req.query.name || "";
+        const qAge = parseInt(req.query.age);
 
-    if (isNaN(qAge)) {
+        if (isNaN(qAge)) {
 
-        var persons = await Person.find({
-            where: { name: { contains: qName } },
-            sort: 'name'
-        });
+            var persons = await Person.find({
+                where: { name: { contains: qName } },
+                sort: 'name'
+            });
 
-    } else {
+        } else {
 
-        var persons = await Person.find({
-            where: { name: { contains: qName }, age: qAge },
-            sort: 'name'
-        });
+            var persons = await Person.find({
+                where: { name: { contains: qName }, age: qAge },
+                sort: 'name'
+            });
 
-    }
-//comment
-    return res.view('person/index', { 'persons': persons });
-},
+        }
+        //comment
+        return res.view('person/index', { 'persons': persons });
+    },
     // action - paginate
-paginate: async function (req, res) {
+    paginate: async function (req, res) {
 
-    const qPage = Math.max(req.query.page - 1, 0) || 0;
+        const qPage = Math.max(req.query.page - 1, 0) || 0;
 
-    const numOfItemsPerPage = 2;
+        const numOfItemsPerPage = 2;
 
-    var persons = await Person.find({
-        limit: numOfItemsPerPage, 
-        skip: numOfItemsPerPage * qPage
-    });
+        var persons = await Person.find({
+            limit: numOfItemsPerPage,
+            skip: numOfItemsPerPage * qPage
+        });
 
-    var numOfPage = Math.ceil(await Person.count() / numOfItemsPerPage);
+        var numOfPage = Math.ceil(await Person.count() / numOfItemsPerPage);
 
-    return res.view('person/paginate', { 'persons': persons, 'count': numOfPage });
-},
+        return res.view('person/paginate', { 'persons': persons, 'count': numOfPage });
+    },
 
+    populate: async function (req, res) {
 
+        if (!['worksFor'].includes(req.params.association)) return res.notFound();
+
+        const message = sails.getInvalidIdMsg(req.params);
+
+        if (message) return res.badRequest(message);
+
+        var model = await Person.findOne(req.params.id).populate(req.params.association);
+
+        if (!model) return res.notFound();
+
+        return res.json(model);
+
+    },
 };
 

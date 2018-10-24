@@ -23,7 +23,8 @@ module.exports.routes = {
   * `assets` directory)                                                      *
   *                                                                          *
   ***************************************************************************/
- '/' : 'PersonController.index',
+  '/': 'PersonController.index',
+
 
   /***************************************************************************
   *                                                                          *
@@ -46,9 +47,17 @@ module.exports.routes = {
   'GET /person/update/:id': 'PersonController.update',
   'POST /person/update/:id': 'PersonController.update',
   // '/': {
-//   view: 'homepage'
-// }
+  //   view: 'homepage'
+  // }
+  '/person/populate': { view: '404' },
+  '/user/populate': { view: '404' },
+  '/user/add': { view: '404' },
+  '/user/remove': { view: '404' },
 
+  '/person/:id/:association': 'PersonController.populate',
+  '/user/:id/:association': 'UserController.populate',
+  '/user/:id/:association/add/:fk': 'UserController.add',
+  '/user/:id/:association/remove/:fk': 'UserController.remove',
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
   //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗
@@ -58,6 +67,6 @@ module.exports.routes = {
   //  ╔╦╗╦╔═╗╔═╗
   //  ║║║║╚═╗║
   //  ╩ ╩╩╚═╝╚═╝
-  
+
 
 };
