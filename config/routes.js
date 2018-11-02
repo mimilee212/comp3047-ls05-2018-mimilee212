@@ -24,6 +24,10 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
   '/': 'PersonController.index',
+  'DELETE /person/:id': 'PersonController.delete',
+  
+
+
 
 
   /***************************************************************************
@@ -42,7 +46,7 @@ module.exports.routes = {
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
   'GET /person/view/:id': 'PersonController.view',
-  'POST /person/delete/:id': 'PersonController.delete',
+  //'POST /person/delete/:id': 'PersonController.delete',
 
   'GET /person/update/:id': 'PersonController.update',
   'POST /person/update/:id': 'PersonController.update',

@@ -22,7 +22,12 @@ module.exports = {
     worksFor: {
       collection: 'User',
       via: 'supervises'
-    }
+    },
+
+    birthDate: {
+      type: 'ref',
+      columnType: 'datetime'
+  },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

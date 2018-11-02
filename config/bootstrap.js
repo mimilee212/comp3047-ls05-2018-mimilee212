@@ -31,7 +31,7 @@ module.exports.bootstrap = async function (done) {
 
   // Don't forget to trigger `done()` when this bootstrap function's logic is finished.
   // (otherwise your server will never lift, since it's waiting on the bootstrap)
-  sails.bcrypt = require('bcrypt');
+  sails.bcrypt = require('bcryptjs');
   const saltRounds = 10;
   sails.getInvalidIdMsg = function (opts) {
 
@@ -52,10 +52,10 @@ module.exports.bootstrap = async function (done) {
   }
 
   await Person.createEach([
-    { "name": "Martin Choy", "age": "23", "id": 635 },
-    { "name": "Kenny Cheng", "age": "22", "id": 637 }
+    { name: "Martin Choy", age: 23, birthDate: new Date('2000/01/01') },
+    { name: "Kenny Cheng", age: 22, birthDate: new Date('2000/02/02') }
     // etc.
-  ]);
+]);
 
   const hash = await sails.bcrypt.hash('123456', saltRounds);
 
