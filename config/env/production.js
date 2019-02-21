@@ -47,6 +47,8 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     default: {
+      adapter: 'sails-mongo',
+url    : mongodb//heroku_05s36zcq:dbc5fd2nph3gbu09eh558hj6d1@ds023213.mlab.com:23213/heroku_05s36zcq,
       // adapter: 'sails-mysql',
       // url: 'mysql://user:password@host:port/database',
       //--------------------------------------------------------------------------
@@ -168,7 +170,10 @@ module.exports = {
   *                                                                          *
   ***************************************************************************/
   session: {
-
+    session: {
+      adapter: 'connect-mongo',
+      url: mongodb//heroku_05s36zcq:dbc5fd2nph3gbu09eh558hj6d1@ds023213.mlab.com:23213/heroku_05s36zcq,
+  },
     /***************************************************************************
     *                                                                          *
     * Production session store configuration.                                  *
@@ -221,7 +226,7 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     cookie: {
-      // secure: true,
+      secure: true,
       maxAge: 24 * 60 * 60 * 1000,  // 24 hours
     },
 
@@ -250,10 +255,9 @@ module.exports = {
     * > Be sure to use the right protocol!  ("http://" vs. "https://")         *
     *                                                                          *
     ***************************************************************************/
-    // onlyAllowOrigins: [
-    //   'https://example.com',
-    //   'https://staging.example.com',
-    // ],
+    onlyAllowOrigins: [
+      'https://powerful-woodland-73293.herokuapp.com'
+    ],
 
 
     /***************************************************************************
@@ -322,7 +326,7 @@ module.exports = {
     * (https://sailsjs.com/config/http)                                        *
     *                                                                          *
     ***************************************************************************/
-    // trustProxy: true,
+    trustProxy: true,
 
   },
 
