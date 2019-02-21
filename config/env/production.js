@@ -170,7 +170,7 @@ url    : mongodb//heroku_05s36zcq:dbc5fd2nph3gbu09eh558hj6d1@ds023213.mlab.com:2
   *                                                                          *
   ***************************************************************************/
   session: {
-    session: {
+
       adapter: 'connect-mongo',
       url: mongodb//heroku_05s36zcq:dbc5fd2nph3gbu09eh558hj6d1@ds023213.mlab.com:23213/heroku_05s36zcq,
   },
